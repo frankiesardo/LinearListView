@@ -26,7 +26,7 @@ A simple example of the xml attributes that you can use
     android:divider="@drawable/your_divider"
     android:dividerPadding="2dp"
     app:dividerThickness="2dp"
-    app:entries="@array/your_array" />
+    android:entries="@array/your_array" />
 ```
 
 Where: `showDividers`; `divider` and `dividerPadding` have the same meaning of a `LinearLayout` (API 11) attributes, `entries` is the same as a `ListView` attribute and `dividerThickness` controls how thick is the divider (namely its height or width depending on its orientation).
