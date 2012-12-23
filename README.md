@@ -8,7 +8,17 @@ Setup
 -----
 * In Eclipse, just import the library as an Android library project. Project > Clean to generate the binaries 
 you need, like R.java, etc.
-* Then, just add LinearListView as a dependency to your existing project and you`re good to go!
+* Then, just add LinearListView as a dependency to your existing project and you're good to go!
+* If you use maven to build your Android project you can simply add a dependency for this library:
+
+```xml
+<dependency>
+  <groupId>com.linearlistview</groupId>
+  <artifactId>linearlistview</artifactId>
+  <version>1.0</version>
+  <type>apklib</type>
+</dependency>
+```
 
 Usage
 =====
@@ -21,7 +31,7 @@ A simple example of the xml attributes that you can use
     android:id="@+id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal|vertical"
+    android:orientation="horizontal"
     android:showDividers="none|middle|beginning|end"
     android:divider="@drawable/your_divider"
     android:dividerPadding="2dp"
@@ -29,26 +39,24 @@ A simple example of the xml attributes that you can use
     android:entries="@array/your_array" />
 ```
 
-Where: `showDividers`; `divider` and `dividerPadding` have the same meaning of a `LinearLayout` (API 11) attributes, `entries` is the same as a `ListView` attribute and `dividerThickness` controls how thick is the divider (namely its height or width depending on its orientation).
+Where: `showDividers`, `divider` and `dividerPadding` have the same meaning of a `LinearLayout` (API 11) attributes, `entries` is the same as a `ListView` attribute and `dividerThickness` controls how thick is the divider (namely its height or width depending on its orientation).
 
-In your `Activity` you can call `setAdapter(ListAdapter adapter)` and each view from your `ListAdapter` will be inflated and kept in sync with its data.
+In your `Activity` you can call `myLinearListView.setAdapter(myAdapter)` and each view from your `ListAdapter` will be inflated and kept in sync with its data.
 
 
-Why you would use a LinearListVew:
+Why you want to use a LinearListVew:
 
 * You need an horizontal scrollable list (since `Gallery` is deprecated): Just embed this layout with an `horizontal` orientation in an `HorizontalScrollView`.
 * You need two or more lists in a vertical scrollable view.
 * You need to inflate several views in a `LinearLayout` from an `Adapter` and you want to keep them synchronized with its data. This is especially useful when working with a `CursorAdapter`.
-* You need a `ListView` with a fixed height (the total height of its children). Or, you have a complex, scrollable layout and don't want to use a `ListView` with footers and headers.
-* You simply want to use an API 11 `LinearLayout` xml attributes with the added benefit of a `dividerThickness` parameter.
+* You need a list with a fixed height (the total height of its children). Or, you have a complex, scrollable layout and don't want to use a `ListView` with footers and headers.
+* You simply want to use a `LinearLayout` with dividers (API 11) with the added benefit of a `dividerThickness` attribute.
 
 
 Roadmap
 -------------------------
 
-* Drawing a listSelector on top of each element.
-* Implementing OnItemClickListener as an OnTouch event intend of adding an OnClick listener to each element.
-
+* Adding a drawSelectorOnTop attribute.
 
 Developed By
 ============
