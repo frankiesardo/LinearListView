@@ -1,6 +1,5 @@
 package com.linearlistview.internal;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -60,7 +59,6 @@ public class IcsLinearLayout extends LinearLayout {
 
     private boolean mUseLargestChild;
 
-    @SuppressLint("NewApi")
 	public IcsLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
