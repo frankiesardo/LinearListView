@@ -1,8 +1,18 @@
 #Android generated
 bin
 gen
+lint.xml
 
 #Eclipse
 .project
 .classpath
 .settings
+.checkstyle
+
+#Maven
+target
+release.properties
+pom.xml.*
+
+#Other
+.DS_Store
