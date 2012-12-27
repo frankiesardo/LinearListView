@@ -9,7 +9,7 @@
 	<packaging>apk</packaging>
 
 	<parent>
-		<groupId>com.linearlistview</groupId>
+		<groupId>com.github.frankiesardo</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0</version>
 		<relativePath>../pom.xml</relativePath>
@@ -17,7 +17,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.linearlistview</groupId>
+			<groupId>com.github.frankiesardo</groupId>
 			<artifactId>linearlistview</artifactId>
 			<version>${project.version}</version>
 			<type>apklib</type>

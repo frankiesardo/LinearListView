@@ -9,7 +9,7 @@
 		<version>7</version>
 	</parent>
 
-	<groupId>com.linearlistview</groupId>
+	<groupId>com.github.frankiesardo</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0</version>
@@ -21,7 +21,7 @@
 
 	<modules>
 		<module>library</module>
-		<module>samples</module>
+		<module>sample</module>
 	</modules>
 
 	<scm>
