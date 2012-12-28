@@ -9,11 +9,11 @@ Setup
 * In Eclipse, just import the library as an Android library project. Project > Clean to generate the binaries 
 you need, like R.java, etc.
 * Then, just add LinearListView as a dependency to your existing project and you're good to go!
-* If you use maven to build your Android project you can simply add a dependency for this library:
+* If you use maven to build your Android project you can add a dependency for this library:
 
 ```xml
 <dependency>
-  <groupId>com.linearlistview</groupId>
+  <groupId>com.github.frankiesardo</groupId>
   <artifactId>linearlistview</artifactId>
   <version>1.0</version>
   <type>apklib</type>
