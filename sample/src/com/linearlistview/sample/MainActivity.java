@@ -83,6 +83,11 @@ public class MainActivity extends Activity {
 		horizontal.setOnItemClickListener(mListener);
 		vertical.setOnItemClickListener(mListener);		
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

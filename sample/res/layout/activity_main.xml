@@ -30,6 +30,7 @@
             android:orientation="vertical" >
 
             <com.linearlistview.LinearListView
+                android:id="@+id/entries_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="#f00"
