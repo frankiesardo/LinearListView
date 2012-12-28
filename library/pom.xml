@@ -8,7 +8,7 @@
 	<packaging>apklib</packaging>
 
 	<parent>
-		<groupId>com.linearlistview</groupId>
+		<groupId>com.github.frankiesardo</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0</version>
 		<relativePath>../pom.xml</relativePath>
