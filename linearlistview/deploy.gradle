@@ -1,0 +1,85 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+version = "0.9.0-SNAPSHOT"
+
+def sonatypeRepositoryUrl
+if (version.contains("SNAPSHOT")) {
+    println 'DEBUG BUILD'
+    sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+} else {
+    println 'RELEASE BUILD'
+    sonatypeRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+}
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { deployment -> signing.signPom(deployment) }
+
+                repository(url: sonatypeRepositoryUrl) {
+                    authentication(userName: project.getProperty("nexusUsername"), password: project.getProperty("nexusPassword"))
+                }
+
+                pom.project {
+                    name 'LinearListView'
+                    packaging 'aar'
+                    artifactId 'linearlistview'
+                    groupId 'com.github.frankiesardo'
+                    url 'https://github.com/frankiesardo/LinearListView'
+                    description 'Android library that allows you to bind a LinearLayout with a ListAdapter'
+                    inceptionYear '2012'
+
+                    scm {
+                        url 'https://github.com/frankiesardo/LinearListView'
+                        connection 'scm:git:git://github.com/frankiesardo/LinearListView.git'
+                        developerConnection 'scm:git@github.com:novoda/LinearListView.git'
+                    }
+
+                    licenses {
+                        license {
+                            name 'The Apache Software License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'frankiesardo'
+                            name 'Frankie Sardo'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    signing {
+        required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+
+    task androidJavadocs(type: Javadoc) {
+        source = android.sourceSets.main.allJava
+    }
+
+    task androidJavadocsJar(type: Jar) {
+        classifier = 'javadoc'
+        //basename = artifact_id
+        from androidJavadocs.destinationDir
+    }
+
+    task androidSourcesJar(type: Jar) {
+        classifier = 'sources'
+        //basename = artifact_id
+        from android.sourceSets.main.allSource
+    }
+
+    artifacts {
+        //archives packageReleaseJar
+        archives androidSourcesJar
+        archives androidJavadocsJar
+    }
+}

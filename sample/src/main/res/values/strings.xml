@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LinearListView</string>
+    <string name="hello_world">Hello world!</string>
+
+  <string-array name="countries">
+    <item>Italy</item>
+    <item>France</item>
+    <item>US</item>
+    <item>Spain</item>
+    <item>UK</item>
+  </string-array>
+
+</resources>

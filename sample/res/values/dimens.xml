@@ -1,7 +1,0 @@
-<resources>
-
-    <dimen name="padding_small">2dp</dimen>
-    <dimen name="padding_medium">4dp</dimen>
-    <dimen name="padding_large">8dp</dimen>
-    
-</resources>
