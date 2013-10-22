@@ -53,16 +53,11 @@ Roadmap
 
 * Adding a drawSelectorOnTop attribute.
 
-Developed By
-============
-
-* Frankie Sardo
-
 
 License
 =======
 
-    Copyright 2012 Francesco Sardo
+    Copyright 2012 Frankie Sardo
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
