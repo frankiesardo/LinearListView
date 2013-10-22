@@ -15,17 +15,6 @@ dependencies {
 }
 ```
 
-Maven:
-
-```xml
-<dependency>
-  <groupId>com.github.frankiesardo</groupId>
-  <artifactId>linearlistview</artifactId>
-  <version>1.0.1</version>
-</dependency>
-```
-
-
 Usage
 =====
 
