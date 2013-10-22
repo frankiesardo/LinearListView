@@ -11,7 +11,7 @@ Gradle:
 
 ```
 dependencies {
-  compile 'com.github.frankiesardo:linearlistview:1.0.1'
+  compile 'com.github.frankiesardo:linearlistview:1.0.1@aar'
 }
 ```
 
