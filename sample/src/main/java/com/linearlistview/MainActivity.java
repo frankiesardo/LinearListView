@@ -1,4 +1,4 @@
-package com.linearlistview;
+package com.linearlistview.sample;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.linearlistview.LinearListView.OnItemClickListener;
+import com.linearlistview.LinearListView;
 
 public class MainActivity extends Activity {
 
