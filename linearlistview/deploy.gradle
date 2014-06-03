@@ -17,8 +17,8 @@ if (isReleaseBuild()) {
     sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
 }
 
-def username = project.hasProperty("nexusUsername") ?: project.property("nexusUsername") : ""
-def password = project.hasProperty("nexusPassword") ?: project.property("nexusPassword") : ""
+def username = project.hasProperty("nexusUsername") ? project.property("nexusUsername") : ""
+def password = project.hasProperty("nexusPassword") ? project.property("nexusPassword") : ""
 
 afterEvaluate { project ->
     uploadArchives {
