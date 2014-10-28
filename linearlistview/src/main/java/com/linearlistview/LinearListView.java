@@ -3,16 +3,13 @@ package com.linearlistview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
-import android.widget.WrapperListAdapter;
-
-import com.linearlistview.internal.IcsLinearLayout;
 
 /**
  * An extension of a linear layout that supports the divider API of Android
@@ -30,9 +27,11 @@ public class LinearListView extends IcsLinearLayout {
 	private static final int LinearListView_dividerThickness = 1;
 
 	private View mEmptyView;
-	private ListAdapter mAdapter;
+//	private ListAdapter mAdapter;
+	private BaseAdapter mAdapter;
 	private boolean mAreAllItemsSelectable;
 	private OnItemClickListener mOnItemClickListener;
+	private OnItemLongClickListener mOnItemLongClickListener;
 	private DataSetObserver mDataObserver = new DataSetObserver() {
 
 		@Override
@@ -100,7 +99,7 @@ public class LinearListView extends IcsLinearLayout {
 		requestLayout();
 	}
 
-	public ListAdapter getAdapter() {
+	public BaseAdapter getAdapter() {
 		return mAdapter;
 	}
 
@@ -114,7 +113,7 @@ public class LinearListView extends IcsLinearLayout {
 	 * 
 	 * @see #getAdapter()
 	 */
-	public void setAdapter(ListAdapter adapter) {
+	public void setAdapter(BaseAdapter adapter) {
 		if (mAdapter != null) {
 			mAdapter.unregisterDataSetObserver(mDataObserver);
 		}
@@ -155,6 +154,32 @@ public class LinearListView extends IcsLinearLayout {
 		 */
 		void onItemClick(LinearListView parent, View view, int position, long id);
 	}
+	
+	/**
+	 * Interface definition for a callback to be invoked when an item in this
+	 * LinearListView has been long clicked.
+	 */
+	public interface OnItemLongClickListener {
+
+		/**
+		 * Callback method to be invoked when an item in this LinearListView has
+		 * been long clicked.
+		 * <p>
+		 * Implementers can call getItemAtPosition(position) if they need to
+		 * access the data associated with the selected item.
+		 * 
+		 * @param parent
+		 *            The LinearListView where the long click happened.
+		 * @param view
+		 *            The view within the LinearListView that was long clicked (this
+		 *            will be a view provided by the adapter)
+		 * @param position
+		 *            The position of the view in the adapter.
+		 * @param id
+		 *            The row id of the item that was long clicked.
+		 */
+		void onItemLongClick(LinearListView parent, View view, int position, long id);
+	}
 
 	/**
 	 * Register a callback to be invoked when an item in this LinearListView has
@@ -166,6 +191,17 @@ public class LinearListView extends IcsLinearLayout {
 	public void setOnItemClickListener(OnItemClickListener listener) {
 		mOnItemClickListener = listener;
 	}
+	
+	/**
+	 * Register a callback to be invoked when an item in this LinearListView has
+	 * been clicked.
+	 * 
+	 * @param listener
+	 *            The callback that will be invoked.
+	 */
+	public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+		mOnItemLongClickListener = listener;
+	}
 
 	/**
 	 * @return The callback to be invoked with an item in this LinearListView has
@@ -175,6 +211,14 @@ public class LinearListView extends IcsLinearLayout {
 		return mOnItemClickListener;
 	}
 
+	/**
+	 * @return The callback to be invoked with an item in this LinearListView has
+	 *         been long clicked, or null id no callback has been set.
+	 */
+	public final OnItemLongClickListener getOnItemLongClickListener() {
+		return mOnItemLongClickListener;
+	}
+	
 	/**
 	 * Call the OnItemClickListener, if it is defined.
 	 * 
@@ -196,6 +240,29 @@ public class LinearListView extends IcsLinearLayout {
 
 		return false;
 	}
+	
+	/**
+	 * Call the OnItemLongClickListener, if it is defined.
+	 * 
+	 * @param view
+	 *            The view within the LinearListView that was clicked.
+	 * @param position
+	 *            The position of the view in the adapter.
+	 * @param id
+	 *            The row id of the item that was clicked.
+	 * @return True if there was an assigned OnItemLongClickListener that was
+	 *         called, false otherwise is returned.
+	 */
+	public boolean performItemLongClick(View view, int position, long id) {
+		if (mOnItemLongClickListener != null) {
+			playSoundEffect(SoundEffectConstants.CLICK);
+			mOnItemLongClickListener.onItemLongClick(this, view, position, id);
+			return true;
+		}
+
+		return false;
+	}
+	
 
 	/**
 	 * Sets the view to show if the adapter is empty
@@ -203,7 +270,7 @@ public class LinearListView extends IcsLinearLayout {
 	public void setEmptyView(View emptyView) {
 		mEmptyView = emptyView;
 
-		final ListAdapter adapter = getAdapter();
+		final BaseAdapter adapter = getAdapter();
 		final boolean empty = ((adapter == null) || adapter.isEmpty());
 		updateEmptyStatus(empty);
 	}
@@ -256,7 +323,13 @@ public class LinearListView extends IcsLinearLayout {
 			View child = mAdapter.getView(i, null, this);
 			if (mAreAllItemsSelectable || mAdapter.isEnabled(i)) {
 				child.setOnClickListener(new InternalOnClickListener(i));
+				child.setOnLongClickListener(new InternalOnLongClickListener(i));
 			}
+			
+//			if(child.getLayoutParams() == null){
+//				child.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+//			}
+
 			addViewInLayout(child, -1, child.getLayoutParams(), true);
 		}
 	}
@@ -281,6 +354,32 @@ public class LinearListView extends IcsLinearLayout {
 				mOnItemClickListener.onItemClick(LinearListView.this, v,
 						mPosition, mAdapter.getItemId(mPosition));
 			}
+		}
+	}
+	
+	/**
+	 * Internal OnLongClickListener that this view associate of each of its children
+	 * so that they can respond to OnItemLongClick listener's events. Avoid setting
+	 * an OnLongClickListener manually. If you need it you can wrap the child in a
+	 * simple {@link android.widget.FrameLayout}.
+	 */
+	private class InternalOnLongClickListener implements OnLongClickListener {
+
+		int mPosition;
+
+		public InternalOnLongClickListener(int position) {
+			mPosition = position;
+		}
+
+		@Override
+		public boolean onLongClick(View v) {
+			// TODO Auto-generated method stub
+			if ((mOnItemLongClickListener != null) && (mAdapter != null)) {
+				mOnItemLongClickListener.onItemLongClick(LinearListView.this, v,
+						mPosition, mAdapter.getItemId(mPosition));
+				return true;
+			}
+			return false;
 		}
 	}
 }
