@@ -8,8 +8,9 @@ import android.util.Log;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
+import android.widget.WrapperListAdapter;
+import com.linearlistview.internal.IcsLinearLayout;
 
 /**
  * An extension of a linear layout that supports the divider API of Android
@@ -27,8 +28,7 @@ public class LinearListView extends IcsLinearLayout {
 	private static final int LinearListView_dividerThickness = 1;
 
 	private View mEmptyView;
-//	private ListAdapter mAdapter;
-	private BaseAdapter mAdapter;
+	private ListAdapter mAdapter;
 	private boolean mAreAllItemsSelectable;
 	private OnItemClickListener mOnItemClickListener;
 	private OnItemLongClickListener mOnItemLongClickListener;
@@ -99,7 +99,7 @@ public class LinearListView extends IcsLinearLayout {
 		requestLayout();
 	}
 
-	public BaseAdapter getAdapter() {
+	public ListAdapter getAdapter() {
 		return mAdapter;
 	}
 
@@ -113,7 +113,7 @@ public class LinearListView extends IcsLinearLayout {
 	 * 
 	 * @see #getAdapter()
 	 */
-	public void setAdapter(BaseAdapter adapter) {
+	public void setAdapter(ListAdapter adapter) {
 		if (mAdapter != null) {
 			mAdapter.unregisterDataSetObserver(mDataObserver);
 		}
@@ -270,7 +270,7 @@ public class LinearListView extends IcsLinearLayout {
 	public void setEmptyView(View emptyView) {
 		mEmptyView = emptyView;
 
-		final BaseAdapter adapter = getAdapter();
+		final ListAdapter adapter = getAdapter();
 		final boolean empty = ((adapter == null) || adapter.isEmpty());
 		updateEmptyStatus(empty);
 	}
@@ -326,9 +326,6 @@ public class LinearListView extends IcsLinearLayout {
 				child.setOnLongClickListener(new InternalOnLongClickListener(i));
 			}
 			
-//			if(child.getLayoutParams() == null){
-//				child.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-//			}
 
 			addViewInLayout(child, -1, child.getLayoutParams(), true);
 		}
