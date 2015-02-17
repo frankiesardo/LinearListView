@@ -9,7 +9,7 @@ Download
 
 Gradle:
 
-```
+```groovy
 dependencies {
   compile 'com.github.frankiesardo:linearlistview:1.0.1@aar'
 }
@@ -51,7 +51,7 @@ Why you want to use a LinearListVew:
 Roadmap
 -------------------------
 
-* Adding a drawSelectorOnTop attribute.
+* Adding a `drawSelectorOnTop` attribute.
 
 
 License
